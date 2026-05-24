@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html,body,[class*="css"]{
+    font-family:'Poppins',sans-serif;
+}
+
+/* Main App */
+
+.stApp{
+    background:linear-gradient(135deg,#0f172a,#020617);
+    color:white;
+}
+
+/* Sidebar */
+
+section[data-testid="stSidebar"]{
+    background:rgba(15,23,42,0.95);
+    border-right:1px solid rgba(255,255,255,0.1);
+}
+
+/* Cards */
+
+.card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0px 10px 30px rgba(0,0,0,0.3);
+    transition:0.4s;
+    margin-bottom:20px;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0px 15px 40px rgba(37,99,235,0.3);
+}
+
+/* Buttons */
+
+.stButton>button{
+    width:100%;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    color:white;
+    border:none;
+    border-radius:15px;
+    padding:14px;
+    font-size:16px;
+    font-weight:600;
+    transition:0.4s;
+}
+
+.stButton>button:hover{
+    transform:scale(1.03);
+    box-shadow:0px 10px 25px rgba(124,58,237,0.4);
+}
+
+/* Input */
+
+.stTextInput input,
+.stTextArea textarea{
+    background:rgba(255,255,255,0.05);
+    color:white;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Metric */
+
+[data-testid="metric-container"]{
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:20px;
+}
