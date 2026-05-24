@@ -1,37 +1,33 @@
 from reportlab.platypus import *
-from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus.tables import Table, TableStyle
-
+from reportlab.lib import colors
 
 def generate_resume_pdf(
     name,
+    role,
     email,
     phone,
+    summary,
     skills,
     experience,
-    education
+    education,
+    certifications,
+    theme
 ):
 
     doc = SimpleDocTemplate(
         "resume.pdf",
-        pagesize=letter,
-        rightMargin=30,
-        leftMargin=30,
-        topMargin=30,
-        bottomMargin=20
+        pagesize=letter
     )
 
     styles = getSampleStyleSheet()
 
     elements = []
 
-    # HEADER
-
     title = Paragraph(
         f"""
-        <font size=24>
+        <font size=24 color='{theme}'>
         <b>{name}</b>
         </font>
         """,
@@ -40,97 +36,45 @@ def generate_resume_pdf(
 
     elements.append(title)
 
-    elements.append(Spacer(1, 10))
-
-    # CONTACT
+    elements.append(Spacer(1,15))
 
     contact = Paragraph(
-        f"""
-        <font size=11>
-        📧 {email} &nbsp;&nbsp;&nbsp;
-        📱 {phone}
-        </font>
-        """,
+        f"{role}<br/>{email}<br/>{phone}",
         styles['BodyText']
     )
 
     elements.append(contact)
 
-    elements.append(Spacer(1, 20))
+    elements.append(Spacer(1,20))
 
-    # SKILLS SECTION
+    sections = [
+        ("Summary",summary),
+        ("Skills",skills),
+        ("Experience",experience),
+        ("Education",education),
+        ("Certifications",certifications)
+    ]
 
-    skills_title = Paragraph(
-        "<b><font size=16 color='blue'>Skills</font></b>",
-        styles['Heading2']
-    )
+    for title_text,content in sections:
 
-    elements.append(skills_title)
+        heading = Paragraph(
+            f"""
+            <font size=16 color='{theme}'>
+            <b>{title_text}</b>
+            </font>
+            """,
+            styles['Heading2']
+        )
 
-    skills_text = Paragraph(
-        skills,
-        styles['BodyText']
-    )
+        elements.append(heading)
 
-    elements.append(skills_text)
+        elements.append(
+            Paragraph(
+                content,
+                styles['BodyText']
+            )
+        )
 
-    elements.append(Spacer(1, 15))
-
-    # EXPERIENCE
-
-    exp_title = Paragraph(
-        "<b><font size=16 color='blue'>Experience</font></b>",
-        styles['Heading2']
-    )
-
-    elements.append(exp_title)
-
-    exp_text = Paragraph(
-        experience,
-        styles['BodyText']
-    )
-
-    elements.append(exp_text)
-
-    elements.append(Spacer(1, 15))
-
-    # EDUCATION
-
-    edu_title = Paragraph(
-        "<b><font size=16 color='blue'>Education</font></b>",
-        styles['Heading2']
-    )
-
-    elements.append(edu_title)
-
-    edu_text = Paragraph(
-        education,
-        styles['BodyText']
-    )
-
-    elements.append(edu_text)
-
-    elements.append(Spacer(1, 20))
-
-    # FOOTER LINE
-
-    table = Table(
-        [["AI Resume Helper"]],
-        colWidths=[500]
-    )
-
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#2563eb")),
-        ('TEXTCOLOR', (0,0), (-1,-1), colors.white),
-        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-        ('FONTNAME', (0,0), (-1,-1), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,-1), 12),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 10),
-        ('TOPPADDING', (0,0), (-1,-1), 10),
-    ]))
-
-    elements.append(table)
-
-    # BUILD PDF
+        elements.append(Spacer(1,15))
 
     doc.build(elements)
