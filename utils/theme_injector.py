@@ -1,0 +1,95 @@
+# utils/theme_injector.py
+import streamlit as st
+import os
+
+def apply_global_styles():
+    os.makedirs("assets", exist_ok=True)
+    css_path = "assets/style.css"
+    
+    css_content = """/* assets/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+    --primary-color: #8C7A6B;
+    --primary-dark: #2C2523;
+    --text-dark: #2C2523;
+    --text-muted: #6E625F;
+    --divider: #E6DFD9;
+    --base-bg: #fdfbf7;
+}
+
+/* Base background with lighting caustic lines */
+body, .stApp {
+    background-color: var(--base-bg) !important;
+    background-image: 
+        radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 50%),
+        linear-gradient(115deg, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0.75) 30%, rgba(255, 255, 255, 0) 35%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0.6) 47%, rgba(255, 255, 255, 0) 52%) !important;
+    background-attachment: fixed !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+}
+
+/* SIDEBAR & NAV */
+[data-testid="stSidebar"] {
+    background-color: var(--base-bg) !important;
+    border-right: 1px solid var(--divider) !important;
+}
+header[data-testid="stHeader"] {
+    background-color: transparent !important;
+    backdrop-filter: blur(8px);
+}
+
+/* CARDS & TYPOGRAPHY */
+h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif !important;
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+}
+
+.card, .preview-card, div[data-testid="stMetricValue"] {
+    background: #ffffff !important;
+    border: 1px solid rgba(230, 223, 217, 0.8) !important;
+    border-radius: 12px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 20px rgba(44, 37, 35, 0.02) !important;
+}
+
+/* MOBILE RESPONSIVENESS OVERRIDES */
+@media (max-width: 768px) {
+    /* Stack columns vertically on mobile */
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Adjust font sizes for mobile */
+    h1 { font-size: 1.8rem !important; }
+    h2 { font-size: 1.5rem !important; }
+    
+    /* Reduce card padding */
+    .card, .preview-card {
+        padding: 15px !important;
+    }
+    
+    /* Ensure the main resume preview fits */
+    .preview-card {
+        overflow-x: auto;
+    }
+}
+
+/* TYPING ANIMATION (from previous steps) */
+.typing-container {
+    display: flex; gap: 5px; padding: 10px 14px; background: #f4efeb; border-radius: 8px; width: fit-content;
+}
+.typing-dot { width: 6px; height: 6px; background: var(--primary-color); border-radius: 50%; animation: pulse 1.4s infinite ease-in-out both; }
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+@keyframes pulse { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+"""
+    with open(css_path, "w") as f:
+        f.write(css_content)
+    with open(css_path, "r") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
